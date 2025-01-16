@@ -39,93 +39,6 @@
 #include <libavutil/opt.h>
 #include <libavutil/pixdesc.h>
 
-//* Used by the INPUT typemap for char**.
- * Will convert a Perl AV* (containing strings) to a C char**.
- */
-char **
-XS_unpack_charPtrPtr( rv )
-SV *rv;
-{
-	AV *av;
-	SV **ssv;
-	char **s;
-	int avlen;
-	int x;
-
-	if( SvROK( rv ) && (SvTYPE(SvRV(rv)) == SVt_PVAV) )
-		av = (AV*)SvRV(rv);
-	else {
-		warn("XS_unpack_charPtrPtr: rv was not an AV ref");
-		return( (char**)NULL );
-	}
-
-	/* is it empty? */
-	avlen = av_len(av);
-	if( avlen < 0 ){
-		warn("XS_unpack_charPtrPtr: array was empty");
-		return( (char**)NULL );
-	}
-
-	/* av_len+2 == number of strings, plus 1 for an end-of-array sentinel.
-	 */
-	s = (char **)safemalloc( sizeof(char*) * (avlen + 2) );
-	if( s == NULL ){
-		warn("XS_unpack_charPtrPtr: unable to malloc char**");
-		return( (char**)NULL );
-	}
-	for( x = 0; x <= avlen; ++x ){
-		ssv = av_fetch( av, x, 0 );
-		if( ssv != NULL ){
-			if( SvPOK( *ssv ) ){
-				s[x] = (char *)safemalloc( SvCUR(*ssv) + 1 );
-				if( s[x] == NULL )
-					warn("XS_unpack_charPtrPtr: unable to malloc char*");
-				else
-					strcpy( s[x], SvPV_nolen(*ssv) );
-			}
-			else
-				warn("XS_unpack_charPtrPtr: array elem %d was not a string.", x );
-		}
-		else
-			s[x] = (char*)NULL;
-	}
-	s[x] = (char*)NULL; /* sentinel */
-	return( s );
-}
-
-/* Used by the OUTPUT typemap for char**.
- * Will convert a C char** to a Perl AV*.
- */
-void
-XS_pack_charPtrPtr( st, s )
-SV *st;
-char **s;
-{
-	AV *av = newAV();
-	SV *sv;
-	char **c;
-
-	for( c = s; *c != NULL; ++c ){
-		sv = newSVpv( *c, 0 );
-		av_push( av, sv );
-	}
-	sv = newSVrv( st, NULL );	/* upgrade stack SV to an RV */
-	SvREFCNT_dec( sv );	/* discard */
-	SvRV( st ) = (SV*)av;	/* make stack RV point at our AV */
-}
-
-
-/* cleanup the temporary char** from XS_unpack_charPtrPtr */
-void
-XS_release_charPtrPtr(s)
-char **s;
-{
-	char **c;
-	for( c = s; *c != NULL; ++c )
-		safefree( *c );
-	safefree( s );
-}
-
 static AVFormatContext *ifmt_ctx;
 static AVFormatContext *ofmt_ctx;
 typedef struct FilteringContext {
@@ -618,7 +531,7 @@ static int flush_encoder(unsigned int stream_index)
     return encode_write_frame(stream_index, 1);
 }
 
-int main(int argc, char **argv)
+int thumb(char* caller, char* in, char* out, char* width, char* height)
 {
     int ret;
     AVPacket *packet = NULL;
@@ -626,15 +539,10 @@ int main(int argc, char **argv)
     unsigned int i;
     char *max_w_end;
     char *max_h_end;
- 
-    if (argc < 3) {
-        av_log(NULL, AV_LOG_ERROR, "Usage: %s <input file> <output file> [<max_width> <max_height>]\n", argv[0]);
-        return 1;
-    }
- 
-    if ((ret = open_input_file(argv[1])) < 0)
+
+    if ((ret = open_input_file(in)) < 0)
         goto end;
-    if ((ret = open_output_file(argv[2], strtoul(argv[3], &max_w_end, 10), strtoul(argv[4], &max_h_end, 10))) < 0)
+    if ((ret = open_output_file(out, strtoul(width, &max_w_end, 10), strtoul(height, &max_h_end, 10))) < 0)
         goto end;
     if ((ret = init_filters()) < 0)
         goto end;
@@ -754,10 +662,4 @@ end:
         av_log(NULL, AV_LOG_ERROR, "Error occurred: %s\n", av_err2str(ret));
 
     return ret ? 1 : 0;
-}
-
-int thumb(char* caller, char* in, char* out, char* width, char* height) {
-    char *args[] = { caller, in, out, width, height, NULL };
-    int ret = main(5, args);
-    return ret;
 }

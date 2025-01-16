@@ -8,13 +8,14 @@ use lib 'lib';
 use Data::Dumper;
 use Data::Printer;
 use FFmpeg::FFI;
+use Syntax::Keyword::Try;
 
-my $fftn = FFmpeg::FFI->new;
-$fftn->show_self;
+# my $fftn = FFmpeg::FFI->new;
+# $fftn->show_self;
 
 try {
-  FFmpeg::FFI->thumbnail(@ARGV);
-  #FFmpeg::Inline::tn(@ARGV);
+  my $ret = FFmpeg::FFI->thumbnail(@ARGV);
+  say $ret
 }
 catch ($e) {
   p $e

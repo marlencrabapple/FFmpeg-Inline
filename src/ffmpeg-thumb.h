@@ -17,11 +17,6 @@
 #include <libavutil/opt.h>
 #include <libavutil/pixdesc.h>
 
-char ** XS_unpack_charPtrPtr _(( SV *rv ));
-void XS_pack_charPtrPtr _(( SV *st, char **s ));
-void XS_release_charPtrPtr _(( char **s ));
-
-
 static AVFormatContext *ifmt_ctx;
 static AVFormatContext *ofmt_ctx;
 typedef struct FilteringContext {
@@ -51,6 +46,5 @@ static int init_filters(void);
 static int encode_write_frame(unsigned int stream_index, int flush);
 static int filter_encode_write_frame(AVFrame *frame, unsigned int stream_index);
 static int flush_encoder(unsigned int stream_index);
-int main(int argc, char **argv);
-int thumb(char* caller, char* in, char* out, int width, int height);
+int thumb(char* caller, char* in, char* out, char* width, char* height);
 

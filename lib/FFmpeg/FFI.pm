@@ -8,7 +8,14 @@ use v5.40;
 
 use Path::Tiny;
 use Data::Printer;
+use Data::Dumper;
 use Syntax::Keyword::Try;
+use Encode qw(encode decode);
+
+our $code;
+BEGIN {
+  $code .= path('./src/ffmpeg-thumb.c')->slurp_utf8;
+}
 
 state $config = {
   tn => {
@@ -19,9 +26,14 @@ state $config = {
   }
 };
 
-use Inline C => path('./src/ffmpeg-thumb.h')->slurp_utf8
+use Inline C => Config =>
   => BUILD_NOISY => 1
-  => enable => autowrap
+  => enable => "autowrap"
+  => LIBS => "-lavformat -lavcodec -lavdevice -lavfilter -lavutil -lswscale -lswresample -lz";
+
+use Inline C => $code
+  => BUILD_NOISY => 1
+  => enable => "autowrap"
   => LIBS => "-lavformat -lavcodec -lavdevice -lavfilter -lavutil -lswscale -lswresample -lz";
 
 method show_self {
@@ -35,12 +47,18 @@ method tnfn :common {
 method thumbnail :common ($in, $out = './' . $config->{tn}{default_name}->()
   , $width = $config->{tn}{width}, $height = $config->{tn}{height}) {
 
+  my @io = map { "$_" } (path($in)->absolute, path($out)->absolute);
+  my $ret;
+
   try {
-    FFmpeg::FFI::thumb($0, $in, $out, "$width", "$height");
+    say Dumper($0, @io, $width, $height);
+    $ret = FFmpeg::FFI::thumb($0, @io, "$width", "$height");
   }
   catch ($e) {
     p $e
   }
+
+  $ret
 }
 
 __END__
