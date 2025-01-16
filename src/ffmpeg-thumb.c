@@ -549,16 +549,32 @@ int thumb(char* caller, char* in, char* out, char* width, char* height)
     if (!(packet = av_packet_alloc()))
         goto end;
 
+    int seek = 0;
+
     /* read all packets */
     while (1) {
+	
+
         if ((ret = av_read_frame(ifmt_ctx, packet)) < 0)
             break;
+
+	if (seek < 32) {
+	  seek++;
+	  continue;
+	}
+
         stream_index = packet->stream_index;
         av_log(NULL, AV_LOG_DEBUG, "Demuxer gave frame of stream_index %u\n",
                 stream_index);
 
         if (filter_ctx[stream_index].filter_graph) {
             StreamContext *stream = &stream_ctx[stream_index];
+
+	     //int64_t seekTarget = int64_t(10) * timeBase;
+
+             //if(av_seek_frame(*stream, -1, seekTarget, AVSEEK_FLAG_ANY) < 0)
+               //    mexErrMsgTxt("av_seek_frame failed.");
+
 
             av_log(NULL, AV_LOG_DEBUG, "Going to reencode&filter the frame\n");
  
@@ -663,3 +679,5 @@ end:
 
     return ret ? 1 : 0;
 }
+
+//int probe

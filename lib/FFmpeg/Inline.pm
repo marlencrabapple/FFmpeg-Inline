@@ -15,7 +15,7 @@ use Encode qw(encode decode);
 
 our $code;
 BEGIN {
-  $code .= path('./src/ffmpeg-thumb.c')->slurp_utf8;
+  $code .= path('./src/ffmpeg-thumb.c')->absolute->slurp_utf8;
 }
 
 state $config = {
