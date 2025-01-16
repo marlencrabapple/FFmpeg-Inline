@@ -46,5 +46,5 @@ static int init_filters(void);
 static int encode_write_frame(unsigned int stream_index, int flush);
 static int filter_encode_write_frame(AVFrame *frame, unsigned int stream_index);
 static int flush_encoder(unsigned int stream_index);
-int thumb(char* caller, char* in, char* out, char* width, char* height, char * codecid);
+int thumb(char* caller, char* in, char* out, char* width, char* height, char* codecid);
 

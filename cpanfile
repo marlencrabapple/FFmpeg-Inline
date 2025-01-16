@@ -29,7 +29,8 @@ requires 'Future::AsyncAwait';
 requires 'IO::Async';
 requires 'IO::Async::SSL';
 requires 'Const::Fast';
-requires 'Dist::Zilla::Plugin::InlineModule';
+#requires 'Dist::Zilla::Plugin::InlineModule';
+requires 'Module::Build::InlineModule';
 
 on 'test' => sub {
   requires 'C::Scan';
@@ -39,6 +40,7 @@ on 'test' => sub {
   requires 'Test::Spellunker';
   requires 'Test::MinimumVersion::Fast';
   requires 'Dist::Zilla::Plugin::InlineModule';
+  requires 'Module::Build::InlineModule'
 };
 
 use constant DEV_PREREQS => sub {
@@ -54,7 +56,9 @@ use constant DEV_PREREQS => sub {
   requires 'Inline::C';
   requires 'Inline::MakeMaker';
   requires 'ExtUtils::MakeMaker';
-    requires 'Dist::Zilla::Plugin::InlineModule';
+  requires 'Dist::Zilla::Plugin::InlineModule';
+  requires 'Module::Build::InlineModule';
+  requires 'Module::Signature'
 };
 
 on 'build' => DEV_PREREQS;

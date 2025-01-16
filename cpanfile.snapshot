@@ -2276,6 +2276,15 @@ DISTRIBUTIONS
       Text::ParseWords 0
       perl 5.006001
       version 0.87
+  Module-Build-InlineModule-0.04
+    pathname: I/IN/INGY/Module-Build-InlineModule-0.04.tar.gz
+    provides:
+      Module::Build::InlineModule 0.04
+    requirements:
+      ExtUtils::MakeMaker 0
+      Inline::Module 0.30
+      Module::Build 0.4210
+      perl 5.008001
   Module-Build-Tiny-0.051
     pathname: L/LE/LEONT/Module-Build-Tiny-0.051.tar.gz
     provides:
@@ -2392,6 +2401,17 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Module-Signature-0.89
+    pathname: T/TI/TIMLEGGE/Module-Signature-0.89.tar.gz
+    provides:
+      Module::Signature 0.89
+    requirements:
+      ExtUtils::MakeMaker 6.36
+      File::Temp 0
+      IO::Socket::INET 0
+      IPC::Run 0
+      Test::More 0
+      perl 5.005
   Moo-2.005005
     pathname: H/HA/HAARG/Moo-2.005005.tar.gz
     provides:
