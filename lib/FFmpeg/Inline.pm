@@ -6,6 +6,7 @@ class FFmpeg::Inline;
 use utf8;
 use v5.40;
 
+use Time::HiRes;
 use Path::Tiny;
 use Data::Printer;
 use Data::Dumper;
@@ -41,7 +42,7 @@ method show_self {
 }
 
 method tnfn :common {
-  time . "." . $config->{tn}{default_format}
+  (join '', Time::HiRes::gettimeofday) . "." . $config->{tn}{default_format}
 }
 
 method thumbnail :common ($in, $out = './' . $config->{tn}{default_name}->()

@@ -1,6 +1,6 @@
 requires 'perl', 'v5.40';
 
-requires 'FFI::Platypus';
+requires 'Time::HiRes';
 requires 'Inline::Module';
 requires 'Inline';
 requires 'Inline::C';
@@ -29,11 +29,10 @@ requires 'Future::AsyncAwait';
 requires 'IO::Async';
 requires 'IO::Async::SSL';
 requires 'Const::Fast';
-  requires 'Dist::Zilla::Plugin::InlineModule';
+requires 'Dist::Zilla::Plugin::InlineModule';
 
 on 'test' => sub {
   requires 'C::Scan';
-  requires 'FFI::Platypus';
   requires 'Test::More', '0.98';
   requires 'Test::CPAN::Meta', '0.25',
   requires 'Test::PAUSE::Permissions';
@@ -43,7 +42,6 @@ on 'test' => sub {
 };
 
 use constant DEV_PREREQS => sub {
-  requires 'FFI::Platypus';
   requires 'Inline::Module';
   requires 'C::Scan';
   requires 'Minilla';
