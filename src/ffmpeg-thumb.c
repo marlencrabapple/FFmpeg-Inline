@@ -59,6 +59,86 @@ typedef struct StreamContext {
 } StreamContext;
 static StreamContext *stream_ctx;
 
+/* Used by the INPUT typemap for char**.
+ * Will convert a Perl AV* (containing strings) to a C char**.
+ */
+char **
+XS_unpack_charPtrPtr( rv )
+SV *rv;
+{
+        AV *av;
+        SV **ssv;
+        char **s;
+        int avlen;
+        int x;
+        if( SvROK( rv ) && (SvTYPE(SvRV(rv)) == SVt_PVAV) )
+                av = (AV*)SvRV(rv);
+        else {
+                warn("XS_unpack_charPtrPtr: rv was not an AV ref");
+                return( (char**)NULL );
+        }
+        /* is it empty? */
+        avlen = av_len(av);
+        if( avlen < 0 ){
+                warn("XS_unpack_charPtrPtr: array was empty");
+                return( (char**)NULL );
+        }
+        /* av_len+2 == number of strings, plus 1 for an end-of-array sentinel.
+         */
+        s = (char **)safemalloc( sizeof(char*) * (avlen + 2) );
+        if( s == NULL ){
+                warn("XS_unpack_charPtrPtr: unable to malloc char**");
+                return( (char**)NULL );
+        }
+        for( x = 0; x <= avlen; ++x ){
+                ssv = av_fetch( av, x, 0 );
+                if( ssv != NULL ){
+                        if( SvPOK( *ssv ) ){
+                                s[x] = (char *)safemalloc( SvCUR(*ssv) + 1 );
+                                if( s[x] == NULL )
+                                        warn("XS_unpack_charPtrPtr: unable to malloc char*");
+                                else
+                                        strcpy( s[x], SvPV_nolen(*ssv) );
+                        }
+                        else
+                                warn("XS_unpack_charPtrPtr: array elem %d was not a string.", x );
+                }
+                else
+                        s[x] = (char*)NULL;
+        }
+        s[x] = (char*)NULL; /* sentinel */
+        return( s );
+}
+/* Used by the OUTPUT typemap for char**.
+ * Will convert a C char** to a Perl AV*.
+ */
+void
+XS_pack_charPtrPtr( st, s )
+SV *st;
+char **s;
+{
+        AV *av = newAV();
+        SV *sv;
+        char **c;
+        for( c = s; *c != NULL; ++c ){
+                sv = newSVpv( *c, 0 );
+                av_push( av, sv );
+        }
+        sv = newSVrv( st, NULL );       /* upgrade stack SV to an RV */
+        SvREFCNT_dec( sv );     /* discard */
+        SvRV( st ) = (SV*)av;   /* make stack RV point at our AV */
+}
+/* cleanup the temporary char** from XS_unpack_charPtrPtr */
+void
+XS_release_charPtrPtr(s)
+char **s;
+{
+        char **c;
+        for( c = s; *c != NULL; ++c )
+                safefree( *c );
+        safefree( s );
+}
+
 static int open_input_file(const char *filename)
 {
     int ret;
@@ -531,7 +611,7 @@ static int flush_encoder(unsigned int stream_index)
     return encode_write_frame(stream_index, 1);
 }
 
-int thumb(char* caller, char* in, char* out, char* width, char* height)
+int thumb(char* caller, char* in, char* out, char* width, char* height, char* codecid)
 {
     int ret;
     AVPacket *packet = NULL;
@@ -558,11 +638,6 @@ int thumb(char* caller, char* in, char* out, char* width, char* height)
         if ((ret = av_read_frame(ifmt_ctx, packet)) < 0)
             break;
 
-	if (seek < 32) {
-	  seek++;
-	  continue;
-	}
-
         stream_index = packet->stream_index;
         av_log(NULL, AV_LOG_DEBUG, "Demuxer gave frame of stream_index %u\n",
                 stream_index);
@@ -576,6 +651,7 @@ int thumb(char* caller, char* in, char* out, char* width, char* height)
                //    mexErrMsgTxt("av_seek_frame failed.");
 
 
+
             av_log(NULL, AV_LOG_DEBUG, "Going to reencode&filter the frame\n");
  
             av_packet_rescale_ts(packet,
@@ -587,6 +663,8 @@ int thumb(char* caller, char* in, char* out, char* width, char* height)
                 break;
             }
 
+
+
             while (ret >= 0) {
                 ret = avcodec_receive_frame(stream->dec_ctx, stream->dec_frame);
                 if (ret == AVERROR_EOF || ret == AVERROR(EAGAIN))
@@ -595,6 +673,13 @@ int thumb(char* caller, char* in, char* out, char* width, char* height)
                     goto end;
 
                 stream->dec_frame->pts = stream->dec_frame->best_effort_timestamp;
+
+		
+                //if (seek < 16) {
+                //	  seek++;
+                //	  continue;
+                //	}
+
                 ret = filter_encode_write_frame(stream->dec_frame, stream_index);
                 if (ret < 0)
                     goto end;
@@ -678,6 +763,10 @@ end:
         av_log(NULL, AV_LOG_ERROR, "Error occurred: %s\n", av_err2str(ret));
 
     return ret ? 1 : 0;
+}
+
+int main (int argc, char** argv) {
+  return 0;
 }
 
 //int probe
