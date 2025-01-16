@@ -1,7 +1,7 @@
 use Object::Pad qw(:experimental(:all));
 
-package FFmpeg::FFI 0.01;
-class FFmpeg::FFI;
+package FFmpeg::Inline 0.01;
+class FFmpeg::Inline;
 
 use utf8;
 use v5.40;
@@ -52,7 +52,7 @@ method thumbnail :common ($in, $out = './' . $config->{tn}{default_name}->()
 
   try {
     say Dumper($0, @io, $width, $height);
-    $ret = FFmpeg::FFI::thumb($0, @io, "$width", "$height");
+    $ret = FFmpeg::Inline::thumb($0, @io, "$width", "$height");
   }
   catch ($e) {
     p $e

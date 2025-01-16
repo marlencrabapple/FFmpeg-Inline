@@ -1,4 +1,4 @@
-name = "FFmpeg-FFI"
+name = "FFmpeg-Inline"
 badges = ["github-actions/test.yml"]
 module_maker="ModuleBuildTiny"
 static_install = "auto"

@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : 2
    },
-   "name" : "FFmpeg-FFI",
+   "name" : "FFmpeg-Inline",
    "no_index" : {
       "directory" : [
          "t",
