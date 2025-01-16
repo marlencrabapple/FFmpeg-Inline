@@ -1,0 +1,126 @@
+{
+   "abstract" : "Bindings to FFmpeg/libav via Inline::C",
+   "author" : [
+      "Ian P Bradley <ian.bradley@studiocrabapple.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Minilla/v3.1.25, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "FFmpeg-FFI",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "xt",
+         "inc",
+         "share",
+         "eg",
+         "examples",
+         "author",
+         "builder"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "App::perlimports" : "0",
+            "C::Scan" : "0",
+            "Dist::Zilla::Plugin::InlineModule" : "0",
+            "ExtUtils::MakeMaker" : "0",
+            "FFI::Platypus" : "0",
+            "Inline" : "0",
+            "Inline::C" : "0",
+            "Inline::MakeMaker" : "0",
+            "Inline::Module" : "0",
+            "Minilla" : "0",
+            "Minilla::Profile::ModuleBuildTiny" : "0",
+            "Perl::Critic" : "0",
+            "Perl::Critic::Community" : "0",
+            "Perl::Tidy" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build::Tiny" : "0.035"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "App::perlimports" : "0",
+            "C::Scan" : "0",
+            "Dist::Zilla::Plugin::InlineModule" : "0",
+            "ExtUtils::MakeMaker" : "0",
+            "FFI::Platypus" : "0",
+            "Inline" : "0",
+            "Inline::C" : "0",
+            "Inline::MakeMaker" : "0",
+            "Inline::Module" : "0",
+            "Minilla" : "0",
+            "Minilla::Profile::ModuleBuildTiny" : "0",
+            "Perl::Critic" : "0",
+            "Perl::Critic::Community" : "0",
+            "Perl::Tidy" : "0",
+            "Test::CPAN::Meta" : "0",
+            "Test::MinimumVersion::Fast" : "0.04",
+            "Test::PAUSE::Permissions" : "0.07",
+            "Test::Pod" : "1.41",
+            "Test::Spellunker" : "v0.2.7"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Const::Fast" : "0",
+            "Data::Printer" : "0",
+            "Dist::Zilla::Plugin::InlineModule" : "0",
+            "FFI::Platypus" : "0",
+            "File::chdir" : "0",
+            "Future::AsyncAwait" : "0",
+            "Getopt::Long" : "0",
+            "HTTP::Tinyish" : "0",
+            "IO::Async" : "0",
+            "IO::Async::SSL" : "0",
+            "IO::Socket::SSL" : "0",
+            "IPC::Run3" : "0",
+            "Inline" : "0",
+            "Inline::C" : "0",
+            "Inline::CPP" : "0",
+            "Inline::Module" : "0",
+            "InlineX::C2XS" : "0",
+            "JSON::MaybeXS" : "0",
+            "List::AllUtils" : "0",
+            "Net::SSLeay" : "0",
+            "Object::Pad" : "0",
+            "Path::Tiny" : "0",
+            "Pod::Usage" : "0",
+            "Struct::Dumb" : "0",
+            "Syntax::Keyword::Defer" : "0",
+            "Syntax::Keyword::Dynamically" : "0",
+            "Syntax::Keyword::MultiSub" : "0",
+            "Syntax::Keyword::Try" : "0",
+            "TOML::Tiny" : "0",
+            "perl" : "v5.40.0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "C::Scan" : "0",
+            "Dist::Zilla::Plugin::InlineModule" : "0",
+            "FFI::Platypus" : "0",
+            "Test::CPAN::Meta" : "0",
+            "Test::MinimumVersion::Fast" : "0",
+            "Test::More" : "0.98",
+            "Test::PAUSE::Permissions" : "0",
+            "Test::Spellunker" : "0"
+         }
+      }
+   },
+   "release_status" : "unstable",
+   "version" : "0.01",
+   "x_serialization_backend" : "JSON::PP version 4.16",
+   "x_static_install" : 1
+}
