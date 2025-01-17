@@ -56,8 +56,3 @@ src/ffmpeg-thumb.c
 src/ffmpeg-thumb.h
 src/Makefile.example
 t/00_compile.t
-vendor/lib/perl5/x86_64-linux-thread-multi/auto/FFmpeg/Inline/.packlist
-vendor/lib/perl5/x86_64-linux-thread-multi/auto/FFmpeg/Inline/Stub/Stub.so
-vendor/lib/perl5/x86_64-linux-thread-multi/FFmpeg/Inline.pm
-vendor/lib/perl5/x86_64-linux-thread-multi/FFmpeg/Inline/Stub.pm
-vendor/man/man3/FFmpeg::Inline.3

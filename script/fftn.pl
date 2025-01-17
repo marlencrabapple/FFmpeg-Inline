@@ -5,8 +5,9 @@ use v5.40;
 
 use lib 'lib';
 
-use FFmpeg::Inline;
+use Carp;
 use Data::Printer;
+use FFmpeg::Inline;
 use Syntax::Keyword::Try;
 
 my $fftn = FFmpeg::Inline->new;
@@ -17,5 +18,5 @@ try {
   say $ret
 }
 catch ($e) {
-  p $e
+  croak np $e
 }

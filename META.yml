@@ -1,5 +1,5 @@
 ---
-abstract: 'Bindings to FFmpeg via Inline::C and Inline::Module'
+abstract: 'Perl 5 bindings to FFmpeg/lib(av(codec|format|util|filter|device)|sw(resample|scale)) via Inline::C and Inline::Module.'
 author:
   - 'Ian P Bradley <ian@hikki.tech>'
 build_requires: {}
@@ -49,7 +49,14 @@ provides:
   FFmpeg::Inline::Stub:
     file: lib/FFmpeg/Inline/Stub.pm
 requires:
+  Inline::Module: '0'
+  Object::Pad: '0'
+  Path::Tiny: '0'
+  Pod::Usage: '0'
+  Syntax::Keyword::Try: '0'
+  TOML::Tiny: '0'
   Test::More: '0'
+  Time::HiRes: '0'
 resources:
   license: http://dev.perl.org/licenses/
 version: '0.01'

@@ -9,6 +9,8 @@
 /carton.lock
 /.carton/
 /local/
+/vendor/
+.carmel 
 
 nytprof.out
 nytprof/
@@ -28,4 +30,14 @@ cover_db/
 
 MYMETA.*
 
-/FFmpeg-FFI-*
+/FFmpeg-Inline-*
+
+._*
+.DS_Store
+.zynaddsubfx-bank-cache.xml
+.zcomdump
+.zdirs
+.vscode
+.vscode/*
+.inline
+.perl-version

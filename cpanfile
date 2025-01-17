@@ -58,8 +58,10 @@ use constant DEV_PREREQS => sub {
   requires 'ExtUtils::MakeMaker';
   requires 'Dist::Zilla::Plugin::InlineModule';
   requires 'Module::Build::InlineModule';
-  requires 'Module::Signature'
+  requires 'Module::Signature';
+  requires 'ExtUtils::InstallPaths';
 };
 
 on 'build' => DEV_PREREQS;
 on 'develop' => DEV_PREREQS;
+
