@@ -12,6 +12,8 @@
 .inline/lib/auto/FFmpeg/Inline/Stub/.packlist
 .inline/lib/auto/FFmpeg/Inline/Stub/Stub.inl
 .inline/lib/auto/FFmpeg/Inline/Stub/Stub.so
+.modulebuildrc
+.perl-version
 .vscode/settings.json
 Build.PL
 Changes
@@ -33,6 +35,7 @@ FFmpeg-Inline-0.01/MYMETA.json
 FFmpeg-Inline-0.01/MYMETA.yml
 FFmpeg-Inline-0.01/README.md
 FFmpeg-Inline-0.01/script/fftn.pl
+FFmpeg-Inline-0.01/SIGNATURE
 FFmpeg-Inline-0.01/src/ffmpeg-thumb.c
 FFmpeg-Inline-0.01/src/ffmpeg-thumb.h
 FFmpeg-Inline-0.01/src/Makefile.example
@@ -42,6 +45,7 @@ FFmpeg-Inline-0.01/xt/minilla/minimum_version.t
 FFmpeg-Inline-0.01/xt/minilla/permissions.t
 FFmpeg-Inline-0.01/xt/minilla/pod.t
 FFmpeg-Inline-0.01/xt/minilla/spelling.t
+FFmpeg-Inline.ppd
 FFmpeg::Inline.ppd
 lib/FFmpeg/Inline.pm
 lib/FFmpeg/Inline/Stub.pm
