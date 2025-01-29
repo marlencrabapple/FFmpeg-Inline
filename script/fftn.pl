@@ -10,12 +10,15 @@ use Data::Printer;
 use FFmpeg::Inline;
 use Syntax::Keyword::Try;
 
+FFmpeg::Inline->print_class if $ENV{DEBUG};
 my $fftn = FFmpeg::Inline->new;
-$fftn->show_self;
+$fftn->print_self if $ENV{DEBUG};
+FFmpeg::Inline->print_class if $ENV{DEBUG};
 
 try {
-  my $ret = FFmpeg::Inline->thumbnail(@ARGV);
-  say $ret
+  my $ret = FFmpeg::Inline->thumbnail(shift @ARGV
+    , map { ($_ => (shift @ARGV || undef)) } qw(out width height fmt));
+  p $ret
 }
 catch ($e) {
   croak np $e

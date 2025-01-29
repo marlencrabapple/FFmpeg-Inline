@@ -6,36 +6,40 @@ class FFmpeg::Inline;
 use utf8;
 use v5.40;
 
-use Time::HiRes;
+use Carp;
 use Path::Tiny;
+use Time::HiRes;
 use Data::Printer;
-use MIME::Base64;
 use Syntax::Keyword::Try;
 use Encode qw(encode decode);
-
 use FFmpeg::Inline::Stub;
 
-state $config = {
-  tn => {
-    default_format => "avif",
-    default_name => sub { __PACKAGE__->tnfn },
-    width => 250,
-    height => 250
+use Data::Dumper;
+
+state %default = (
+  fmt => "avif",
+  out => sub { __PACKAGE__->tnfn },
+  vf => {
+    scale => {
+      width => 250,
+      height => 250
+    }
   }
-};
+);
+
+field $fmt = $default{fmt};
+field $out = $default{out};
+field $vf  = $default{vf};
 
 use FFmpeg::Inline::Stub C => Config =>
   => BUILD_NOISY => 1
   => enable => "autowrap"
   => LIBS => "-lavformat -lavcodec -lavdevice -lavfilter -lavutil -lswscale -lswresample -lz";
 
-method show_self {
-  p $self
-}
+method print_self { p $self }
+method print_class :common { p $class }
 
-method tnfn :common {
-  (join '', Time::HiRes::gettimeofday) . "." . $config->{tn}{default_format}
-}
+method tnfn :common { (join '', Time::HiRes::gettimeofday) . ".$default{fmt}" }
 
 method codec_id :common ($extension) {
   state %codecmap = (
@@ -46,21 +50,26 @@ method codec_id :common ($extension) {
   $codecmap{$extension}
 }
 
-method thumbnail :common ($in, $out = './' . $config->{tn}{default_name}->()
-  , $width = $config->{tn}{width}, $height = $config->{tn}{height}
-  , $codecid = $class->codec_id($config->{tn}{default_format})) {
+method thumbnail :common ($in, %args) {
+  carp $in if $ENV{DEBUG};
+  carp np %args if $ENV{DEBUG};
+  
+  my @io = map { path($_)->absolute->canonpath }
+             ($in, ($args{out} // './' . $default{out}->()));
 
-  my @io = map { "$_" } (path($in)->absolute, path($out)->absolute);
-  my $ret;
+  my @size = map { "$_" }
+             map { $args{$_} // $default{vf}->{scale}{$_} }
+               qw(width height);
 
   try {
-    $ret = FFmpeg::Inline::thumb($0, @io, "$width", "$height", $codecid);
+    my $status = FFmpeg::Inline::thumb($0, @io, @size
+      , $class->codec_id($args{fmt} // $default{fmt}));
+  
+    return $status
   }
   catch ($e) {
-    p $e
+    warn np $e
   }
-
-  $ret
 }
 
 use FFmpeg::Inline::Stub C => <<'...';
@@ -801,7 +810,7 @@ FFmpeg::Inline - Perl 5 bindings to FFmpeg/lib(av(codec|format|util|filter|devic
                         . "=rgb24extra_opts='preset=veryhigh'"
                         ...
                     }
-                , encodercfg => { effort => 9, distance => 0 }
+                , vcodec => { effort => 9, distance => 0 }
                 , globalcfg  => { threads => 0, report => 1 }
                 , genfn => sub ($inputfn, $ext) { 
                     join '', Time::HiRes::gettimeofday . ".$ext"

@@ -58,7 +58,6 @@ my %args = (
     build_requires => {
         'App::perlimports' => '0',
         'C::Scan' => '0',
-        'Dist::Zilla::Plugin::InlineModule' => '0',
         'ExtUtils::InstallPaths' => '0',
         'ExtUtils::MakeMaker' => '0',
         'Inline' => '0',
@@ -76,7 +75,6 @@ my %args = (
 
     test_requires => {
         'C::Scan' => '0',
-        'Dist::Zilla::Plugin::InlineModule' => '0',
         'Module::Build::InlineModule' => '0',
         'Test::CPAN::Meta' => '0',
         'Test::MinimumVersion::Fast' => '0',

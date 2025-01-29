@@ -25,7 +25,7 @@ FFmpeg::Inline - Perl 5 bindings to FFmpeg/lib(av(codec|format|util|filter|devic
                         . "=rgb24extra_opts='preset=veryhigh'"
                         ...
                     }
-                , encodercfg => { effort => 9, distance => 0 }
+                , vcodec => { effort => 9, distance => 0 }
                 , globalcfg  => { threads => 0, report => 1 }
                 , genfn => sub ($inputfn, $ext) { 
                     join '', Time::HiRes::gettimeofday . ".$ext"

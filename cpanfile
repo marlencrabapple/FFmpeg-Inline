@@ -34,7 +34,7 @@ on 'test' => sub {
   requires 'Test::PAUSE::Permissions';
   requires 'Test::Spellunker';
   requires 'Test::MinimumVersion::Fast';
-  requires 'Dist::Zilla::Plugin::InlineModule';
+  #requires 'Dist::Zilla::Plugin::InlineModule';
   requires 'Module::Build::InlineModule'
 };
 
@@ -51,7 +51,7 @@ use constant DEV_PREREQS => sub {
   requires 'Inline::C';
   requires 'Inline::MakeMaker';
   requires 'ExtUtils::MakeMaker';
-  requires 'Dist::Zilla::Plugin::InlineModule';
+  #requires 'Dist::Zilla::Plugin::InlineModule';
   requires 'Module::Build::InlineModule';
   requires 'Module::Signature';
   requires 'ExtUtils::InstallPaths';
