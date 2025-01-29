@@ -12,9 +12,8 @@ use Time::HiRes;
 use Data::Printer;
 use Syntax::Keyword::Try;
 use Encode qw(encode decode);
-use FFmpeg::Inline::Stub;
 
-use Data::Dumper;
+use FFmpeg::Inline::Stub;
 
 state %default = (
   fmt => "avif",
@@ -34,7 +33,8 @@ field $vf  = $default{vf};
 use FFmpeg::Inline::Stub C => Config =>
   => BUILD_NOISY => 1
   => enable => "autowrap"
-  => LIBS => "-lavformat -lavcodec -lavdevice -lavfilter -lavutil -lswscale -lswresample -lz";
+  => LIBS => "-lavformat -lavcodec -lavdevice -lavfilter -lavutil -lswscale"
+           . " -lswresample -lz";
 
 method print_self { p $self }
 method print_class :common { p $class }

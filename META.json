@@ -31,13 +31,11 @@
             "App::perlimports" : "0",
             "C::Scan" : "0",
             "ExtUtils::InstallPaths" : "0",
-            "ExtUtils::MakeMaker" : "0",
             "Inline" : "0",
             "Inline::C" : "0",
-            "Inline::MakeMaker" : "0",
             "Inline::Module" : "0",
             "Minilla" : "0",
-            "Minilla::Profile::ModuleBuildTiny" : "0",
+            "Minilla::Profile::ModuleBuild" : "0",
             "Module::Build::InlineModule" : "0",
             "Module::Signature" : "0",
             "Perl::Critic" : "0",
@@ -55,13 +53,11 @@
             "App::perlimports" : "0",
             "C::Scan" : "0",
             "ExtUtils::InstallPaths" : "0",
-            "ExtUtils::MakeMaker" : "0",
             "Inline" : "0",
             "Inline::C" : "0",
-            "Inline::MakeMaker" : "0",
             "Inline::Module" : "0",
             "Minilla" : "0",
-            "Minilla::Profile::ModuleBuildTiny" : "0",
+            "Minilla::Profile::ModuleBuild" : "0",
             "Module::Build::InlineModule" : "0",
             "Module::Signature" : "0",
             "Perl::Critic" : "0",
@@ -84,9 +80,7 @@
             "HTTP::Tinyish" : "0",
             "Inline" : "0",
             "Inline::C" : "0",
-            "Inline::CPP" : "0",
             "Inline::Module" : "0",
-            "InlineX::C2XS" : "0",
             "JSON::MaybeXS" : "0",
             "List::AllUtils" : "0",
             "Module::Build::InlineModule" : "0",
@@ -104,13 +98,15 @@
          }
       },
       "test" : {
+         "recommends" : {
+            "Test::PAUSE::Permissions" : "0"
+         },
          "requires" : {
             "C::Scan" : "0",
             "Module::Build::InlineModule" : "0",
             "Test::CPAN::Meta" : "0",
             "Test::MinimumVersion::Fast" : "0",
             "Test::More" : "0.98",
-            "Test::PAUSE::Permissions" : "0",
             "Test::Spellunker" : "0"
          }
       }
