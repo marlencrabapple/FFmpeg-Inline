@@ -9,7 +9,7 @@ use strict;
 use warnings;
 use utf8;
 
-use Module::Build;
+use Module::Build::XSUtil;
 use File::Basename;
 use File::Spec;
 
@@ -73,7 +73,6 @@ my %args = (
         'C::Scan' => '0',
         'Module::Build::InlineModule' => '0',
         'Test::CPAN::Meta' => '0',
-        'Test::MinimumVersion::Fast' => '0',
         'Test::More' => '0.98',
         'Test::Spellunker' => '0',
     },
@@ -89,12 +88,17 @@ my %args = (
     recursive_test_files => 1,
 
 
+    needs_compiler_c99 => 1,
+    needs_compiler_cpp => 0,
+    generate_ppport_h => '1',
+    generate_xshelper_h => '0',
+    cc_warnings => 1,
 );
 if (-d 'share') {
     $args{share_dir} = 'share';
 }
 
-my $builder = Module::Build->subclass(
+my $builder = Module::Build::XSUtil->subclass(
     class => 'MyBuilder',
     code => q{
         sub ACTION_distmeta {

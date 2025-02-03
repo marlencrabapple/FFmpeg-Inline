@@ -1,5 +1,11 @@
 name = "FFmpeg-Inline"
 badges = ["github-actions/test.yml"]
+#module_maker="ModuleBuildInlineModule"
 module_maker="ModuleBuild"
 static_install = "auto"
 
+[XSUtil]
+cc_warnings = 1
+generate_xshelper = 1
+generate_ppport_h = 1
+needs_compiler_c99 = 1

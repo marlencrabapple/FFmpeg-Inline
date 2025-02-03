@@ -22,7 +22,6 @@ requires 'TOML::Tiny';
 requires 'Struct::Dumb';
 requires 'Future::AsyncAwait';
 requires 'Const::Fast';
-#requires 'Dist::Zilla::Plugin::InlineModule';
 requires 'Module::Build::InlineModule';
 
 on 'test' => sub {
@@ -31,9 +30,7 @@ on 'test' => sub {
   requires 'Test::CPAN::Meta', '0.25',
   recommends 'Test::PAUSE::Permissions';
   requires 'Test::Spellunker';
-  requires 'Test::MinimumVersion::Fast';
-  #requires 'Dist::Zilla::Plugin::InlineModule';
-  requires 'Module::Build::InlineModule'
+  requires 'Module::Build::InlineModule';
 };
 
 use constant DEV_PREREQS => sub {
@@ -47,14 +44,14 @@ use constant DEV_PREREQS => sub {
   requires 'Perl::Critic::Community';
   requires 'Inline';
   requires 'Inline::C';
-  #requires 'Inline::MakeMaker';
-  #requires 'ExtUtils::MakeMaker';
-  #requires 'Dist::Zilla::Plugin::InlineModule';
   requires 'Module::Build::InlineModule';
   requires 'Module::Signature';
-  requires 'ExtUtils::InstallPaths';
+  requires 'ExtUtils::InstallPaths'
 };
 
 on 'build' => DEV_PREREQS;
-on 'develop' => DEV_PREREQS
+on 'develop' => DEV_PREREQS;
 
+#requires 'Minilla::ModuleMaker::ModuleBuildInlineModule', '0.01',
+#  dist => 'CRABAPP/Minilla-ModuleMaker-ModuleBuildInlineModule-0.01',
+#  url => 'file://./vendor/Minilla-ModuleMaker-ModuleBuildInlineModule-0.01.tar.gz';

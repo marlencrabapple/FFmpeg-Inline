@@ -1,35 +1,3 @@
-/*
- * Copyright (c) 2010 Nicolas George
- * Copyright (c) 2011 Stefano Sabatini
- * Copyright (c) 2014 Andrey Utkin
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/**
- * @file demuxing, decoding, filtering, encoding and muxing API usage example
- * @example transcode.c
- *
- * Convert input to output file, applying some hard-coded filter-graph on both
- * audio and video streams.
- */
-
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libavfilter/buffersink.h>
@@ -57,11 +25,8 @@ typedef struct StreamContext {
 
     AVFrame *dec_frame;
 } StreamContext;
-static StreamContext *stream_ctx;
 
-/* Used by the INPUT typemap for char**.
- * Will convert a Perl AV* (containing strings) to a C char**.
- */
+static StreamContext *stream_ctx;
 char **
 XS_unpack_charPtrPtr( rv )
 SV *rv;
@@ -109,9 +74,7 @@ SV *rv;
         s[x] = (char*)NULL; /* sentinel */
         return( s );
 }
-/* Used by the OUTPUT typemap for char**.
- * Will convert a C char** to a Perl AV*.
- */
+
 void
 XS_pack_charPtrPtr( st, s )
 SV *st;
@@ -125,10 +88,10 @@ char **s;
                 av_push( av, sv );
         }
         sv = newSVrv( st, NULL );       /* upgrade stack SV to an RV */
-        SvREFCNT_dec( sv );     /* discard */
-        SvRV( st ) = (SV*)av;   /* make stack RV point at our AV */
+        SvREFCNT_dec( sv );            /* discard */
+        SvRV( st ) = (SV*)av;         /* make stack RV point at our AV */
 }
-/* cleanup the temporary char** from XS_unpack_charPtrPtr */
+
 void
 XS_release_charPtrPtr(s)
 char **s;
@@ -179,11 +142,8 @@ static int open_input_file(const char *filename)
             return ret;
         }
 
-        /* Inform the decoder about the timebase for the packet timestamps.
-         * This is highly recommended, but not mandatory. */
         codec_ctx->pkt_timebase = stream->time_base;
 
-        /* Reencode video & audio and remux subtitles etc. */
         if (codec_ctx->codec_type == AVMEDIA_TYPE_VIDEO
                 || codec_ctx->codec_type == AVMEDIA_TYPE_AUDIO) {
             if (codec_ctx->codec_type == AVMEDIA_TYPE_VIDEO)
@@ -253,9 +213,6 @@ static int open_output_file(const char *filename, unsigned int max_w, unsigned i
                 return AVERROR(ENOMEM);
             }
 
-            /* In this example, we transcode to same properties (picture size,
-             * sample rate etc.). These properties can be changed for output
-             * streams easily using filters */
             if (dec_ctx->codec_type == AVMEDIA_TYPE_VIDEO) {
                 const enum AVPixelFormat *pix_fmts = NULL;
 
@@ -451,7 +408,6 @@ static int init_filter(FilteringContext* fctx, AVCodecContext *dec_ctx,
         goto end;
     }
 
-    /* Endpoints for the filter graph. */
     outputs->name       = av_strdup("in");
     outputs->filter_ctx = buffersrc_ctx;
     outputs->pad_idx    = 0;
@@ -474,7 +430,6 @@ static int init_filter(FilteringContext* fctx, AVCodecContext *dec_ctx,
     if ((ret = avfilter_graph_config(filter_graph, NULL)) < 0)
         goto end;
 
-    /* Fill FilteringContext */
     fctx->buffersrc_ctx = buffersrc_ctx;
     fctx->buffersink_ctx = buffersink_ctx;
     fctx->filter_graph = filter_graph;
@@ -568,7 +523,6 @@ static int filter_encode_write_frame(AVFrame *frame, unsigned int stream_index)
     int ret;
 
     av_log(NULL, AV_LOG_INFO, "Pushing decoded frame to filters\n");
-    /* push the decoded frame into the filtergraph */
     ret = av_buffersrc_add_frame_flags(filter->buffersrc_ctx,
             frame, 0);
     if (ret < 0) {
@@ -576,16 +530,11 @@ static int filter_encode_write_frame(AVFrame *frame, unsigned int stream_index)
         return ret;
     }
 
-    /* pull filtered frames from the filtergraph */
     while (1) {
         av_log(NULL, AV_LOG_INFO, "Pulling filtered frame from filters\n");
         ret = av_buffersink_get_frame(filter->buffersink_ctx,
                                       filter->filtered_frame);
         if (ret < 0) {
-            /* if no more frames for output - returns AVERROR(EAGAIN)
-             * if flushed and no more frames for output - returns AVERROR_EOF
-             * rewrite retcode to 0 to show it as normal procedure completion
-             */
             if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
                 ret = 0;
             break;
@@ -633,8 +582,6 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
 
     /* read all packets */
     while (1) {
-	
-
         if ((ret = av_read_frame(ifmt_ctx, packet)) < 0)
             break;
 
@@ -644,26 +591,18 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
 
         if (filter_ctx[stream_index].filter_graph) {
             StreamContext *stream = &stream_ctx[stream_index];
-
-	     //int64_t seekTarget = int64_t(10) * timeBase;
-
-             //if(av_seek_frame(*stream, -1, seekTarget, AVSEEK_FLAG_ANY) < 0)
-               //    mexErrMsgTxt("av_seek_frame failed.");
-
-
-
             av_log(NULL, AV_LOG_DEBUG, "Going to reencode&filter the frame\n");
  
             av_packet_rescale_ts(packet,
                                  ifmt_ctx->streams[stream_index]->time_base,
                                  stream->dec_ctx->time_base);
-            ret = avcodec_send_packet(stream->dec_ctx, packet);
-            if (ret < 0) {
+
+	    ret = avcodec_send_packet(stream->dec_ctx, packet);
+            
+	    if (ret < 0) {
                 av_log(NULL, AV_LOG_ERROR, "Decoding failed\n");
                 break;
             }
-
-
 
             while (ret >= 0) {
                 ret = avcodec_receive_frame(stream->dec_ctx, stream->dec_frame);
@@ -673,8 +612,7 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
                     goto end;
 
                 stream->dec_frame->pts = stream->dec_frame->best_effort_timestamp;
-
-		
+	
                 //if (seek < 16) {
                 //	  seek++;
                 //	  continue;
@@ -691,7 +629,6 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
         av_packet_unref(packet);
     }
 
-    /* flush decoders, filters and encoders */
     for (i = 0; i < ifmt_ctx->nb_streams; i++) {
         StreamContext *stream;
 
@@ -702,7 +639,6 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
 
         av_log(NULL, AV_LOG_INFO, "Flushing stream %u decoder\n", i);
 
-        /* flush decoder */
         ret = avcodec_send_packet(stream->dec_ctx, NULL);
         if (ret < 0) {
             av_log(NULL, AV_LOG_ERROR, "Flushing decoding failed\n");
@@ -722,14 +658,12 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
                 goto end;
         }
 
-        /* flush filter */
         ret = filter_encode_write_frame(NULL, i);
         if (ret < 0) {
             av_log(NULL, AV_LOG_ERROR, "Flushing filter failed\n");
             goto end;
         }
 
-        /* flush encoder */
         ret = flush_encoder(i);
         if (ret < 0) {
             av_log(NULL, AV_LOG_ERROR, "Flushing encoder failed\n");
@@ -768,5 +702,3 @@ end:
 int main (int argc, char** argv) {
   return 0;
 }
-
-//int probe

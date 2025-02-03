@@ -167,24 +167,6 @@ DISTRIBUTIONS
       Clone 0.47
     requirements:
       ExtUtils::MakeMaker 0
-  Compiler-Lexer-0.23
-    pathname: G/GO/GOCCY/Compiler-Lexer-0.23.tar.gz
-    provides:
-      Compiler::Lexer 0.23
-      Compiler::Lexer::Kind undef
-      Compiler::Lexer::SyntaxType undef
-      Compiler::Lexer::Token undef
-      Compiler::Lexer::TokenType undef
-    requirements:
-      Devel::PPPort 3.19
-      ExtUtils::CBuilder 0
-      ExtUtils::MakeMaker 6.59
-      ExtUtils::ParseXS 2.21
-      Module::Build 0.4005
-      Module::Build::XSUtil 0.19
-      Test::More 0
-      XSLoader 0.02
-      perl 5.008001
   Config-Tiny-2.30
     pathname: R/RS/RSAVAGE/Config-Tiny-2.30.tgz
     provides:
@@ -298,19 +280,6 @@ DISTRIBUTIONS
     requirements:
       Digest::MD5 0
       ExtUtils::MakeMaker 0
-  Devel-CheckCompiler-0.07
-    pathname: S/SY/SYOHEX/Devel-CheckCompiler-0.07.tar.gz
-    provides:
-      Devel::AssertC99 undef
-      Devel::CheckCompiler 0.07
-    requirements:
-      Exporter 0
-      ExtUtils::CBuilder 0
-      File::Temp 0
-      Module::Build::Tiny 0.035
-      Test::More 0.98
-      parent 0
-      perl 5.008001
   Devel-CheckLib-1.16
     pathname: M/MA/MATTN/Devel-CheckLib-1.16.tar.gz
     provides:
@@ -451,29 +420,6 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  File-Find-Rule-0.34
-    pathname: R/RC/RCLAMP/File-Find-Rule-0.34.tar.gz
-    provides:
-      File::Find::Rule 0.34
-      File::Find::Rule::Test::ATeam undef
-    requirements:
-      ExtUtils::MakeMaker 0
-      File::Find 0
-      File::Spec 0
-      Number::Compare 0
-      Test::More 0
-      Text::Glob 0.07
-  File-Find-Rule-Perl-1.16
-    pathname: E/ET/ETHER/File-Find-Rule-Perl-1.16.tar.gz
-    provides:
-      File::Find::Rule::Perl 1.16
-    requirements:
-      ExtUtils::MakeMaker 0
-      File::Find::Rule 0.20
-      File::Spec 0.82
-      Params::Util 0.38
-      Parse::CPAN::Meta 1.38
-      perl 5.006
   File-Share-0.27
     pathname: I/IN/INGY/File-Share-0.27.tar.gz
     provides:
@@ -981,21 +927,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Module-Build-XSUtil-0.19
-    pathname: H/HI/HIDEAKIO/Module-Build-XSUtil-0.19.tar.gz
-    provides:
-      Module::Build::XSUtil 0.19
-    requirements:
-      Devel::CheckCompiler 0
-      Devel::PPPort 0
-      Exporter 0
-      ExtUtils::CBuilder 0
-      File::Basename 0
-      File::Path 0
-      Module::Build 0.4005
-      XSLoader 0
-      parent 0
-      perl 5.008001
   Module-CPANfile-1.1004
     pathname: M/MI/MIYAGAWA/Module-CPANfile-1.1004.tar.gz
     provides:
@@ -1873,14 +1804,6 @@ DISTRIBUTIONS
       List::Util 1.33
       Perl::Critic 1.126
       parent 0
-  Perl-MinimumVersion-Fast-0.22
-    pathname: B/BD/BDFOY/Perl-MinimumVersion-Fast-0.22.tar.gz
-    provides:
-      Perl::MinimumVersion::Fast 0.22
-    requirements:
-      Compiler::Lexer 0.23
-      Module::Build::Tiny 0.035
-      perl 5.008005
   Perl-Tidy-20250105
     pathname: S/SH/SHANCOCK/Perl-Tidy-20250105.tar.gz
     provides:
@@ -2505,22 +2428,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::Builder 0.12
       Test::Builder::Tester 1.04
-  Test-MinimumVersion-Fast-0.04
-    pathname: T/TO/TOKUHIROM/Test-MinimumVersion-Fast-0.04.tar.gz
-    provides:
-      Test::MinimumVersion::Fast 0.04
-    requirements:
-      CPAN::Meta 0
-      CPAN::Meta::Prereqs 0
-      File::Find::Rule 0
-      File::Find::Rule::Perl 0
-      Module::Build 0.38
-      Perl::MinimumVersion::Fast 0.14
-      Test::Builder 0
-      YAML::Tiny 1.40
-      parent 0
-      perl 5.008005
-      version 0.70
   Test-Simple-1.302209
     pathname: E/EX/EXODIST/Test-Simple-1.302209.tar.gz
     provides:
@@ -3066,20 +2973,6 @@ DISTRIBUTIONS
       constant 0
       overload 0
       perl 5.008000
-      strict 0
-      warnings 0
-  YAML-Tiny-1.76
-    pathname: E/ET/ETHER/YAML-Tiny-1.76.tar.gz
-    provides:
-      YAML::Tiny 1.76
-    requirements:
-      B 0
-      Carp 0
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      Fcntl 0
-      Scalar::Util 0
-      perl 5.008001
       strict 0
       warnings 0
   common-sense-3.75

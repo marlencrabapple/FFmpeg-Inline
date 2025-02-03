@@ -45,7 +45,8 @@
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0.4005"
+            "Module::Build" : "0.4005",
+            "Module::Build::XSUtil" : "0.03"
          }
       },
       "develop" : {
@@ -105,7 +106,6 @@
             "C::Scan" : "0",
             "Module::Build::InlineModule" : "0",
             "Test::CPAN::Meta" : "0",
-            "Test::MinimumVersion::Fast" : "0",
             "Test::More" : "0.98",
             "Test::Spellunker" : "0"
          }
@@ -120,5 +120,5 @@
    },
    "version" : "0.01",
    "x_serialization_backend" : "JSON::PP version 4.16",
-   "x_static_install" : 1
+   "x_static_install" : 0
 }
