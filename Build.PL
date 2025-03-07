@@ -63,6 +63,7 @@ my %args = (
         'Minilla' => '0',
         'Minilla::Profile::ModuleBuild' => '0',
         'Module::Build::InlineModule' => '0',
+        'Module::Build::XSUtil' => '0',
         'Module::Signature' => '0',
         'Perl::Critic' => '0',
         'Perl::Critic::Community' => '0',

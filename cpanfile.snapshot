@@ -14,18 +14,18 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
-  App-perlimports-0.000055
-    pathname: O/OA/OALDERS/App-perlimports-0.000055.tar.gz
+  App-perlimports-0.000056
+    pathname: O/OA/OALDERS/App-perlimports-0.000056.tar.gz
     provides:
-      App::perlimports 0.000055
-      App::perlimports::Annotations 0.000055
-      App::perlimports::CLI 0.000055
-      App::perlimports::Config 0.000055
-      App::perlimports::Document 0.000055
-      App::perlimports::ExportInspector 0.000055
-      App::perlimports::Include 0.000055
-      App::perlimports::Role::Logger 0.000055
-      App::perlimports::Sandbox 0.000055
+      App::perlimports 0.000056
+      App::perlimports::Annotations 0.000056
+      App::perlimports::CLI 0.000056
+      App::perlimports::Config 0.000056
+      App::perlimports::Document 0.000056
+      App::perlimports::ExportInspector 0.000056
+      App::perlimports::Include 0.000056
+      App::perlimports::Role::Logger 0.000056
+      App::perlimports::Sandbox 0.000056
     requirements:
       Capture::Tiny 0
       Class::Inspector 1.36
@@ -280,6 +280,19 @@ DISTRIBUTIONS
     requirements:
       Digest::MD5 0
       ExtUtils::MakeMaker 0
+  Devel-CheckCompiler-0.07
+    pathname: S/SY/SYOHEX/Devel-CheckCompiler-0.07.tar.gz
+    provides:
+      Devel::AssertC99 undef
+      Devel::CheckCompiler 0.07
+    requirements:
+      Exporter 0
+      ExtUtils::CBuilder 0
+      File::Temp 0
+      Module::Build::Tiny 0.035
+      Test::More 0.98
+      parent 0
+      perl 5.008001
   Devel-CheckLib-1.16
     pathname: M/MA/MATTN/Devel-CheckLib-1.16.tar.gz
     provides:
@@ -927,6 +940,21 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Module-Build-XSUtil-0.19
+    pathname: H/HI/HIDEAKIO/Module-Build-XSUtil-0.19.tar.gz
+    provides:
+      Module::Build::XSUtil 0.19
+    requirements:
+      Devel::CheckCompiler 0
+      Devel::PPPort 0
+      Exporter 0
+      ExtUtils::CBuilder 0
+      File::Basename 0
+      File::Path 0
+      Module::Build 0.4005
+      XSLoader 0
+      parent 0
+      perl 5.008001
   Module-CPANfile-1.1004
     pathname: M/MI/MIYAGAWA/Module-CPANfile-1.1004.tar.gz
     provides:
@@ -1036,16 +1064,16 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
-  Object-Pad-0.819
-    pathname: P/PE/PEVANS/Object-Pad-0.819.tar.gz
+  Object-Pad-0.820
+    pathname: P/PE/PEVANS/Object-Pad-0.820.tar.gz
     provides:
-      Object::Pad 0.819
-      Object::Pad::ExtensionBuilder 0.819
-      Object::Pad::MOP::Class 0.819
-      Object::Pad::MOP::Field 0.819
-      Object::Pad::MOP::FieldAttr 0.819
-      Object::Pad::MOP::Method 0.819
-      Object::Pad::MetaFunctions 0.819
+      Object::Pad 0.820
+      Object::Pad::ExtensionBuilder 0.820
+      Object::Pad::MOP::Class 0.820
+      Object::Pad::MOP::Field 0.820
+      Object::Pad::MOP::FieldAttr 0.820
+      Object::Pad::MOP::Method 0.820
+      Object::Pad::MetaFunctions 0.820
     requirements:
       ExtUtils::CBuilder 0
       File::ShareDir 1.00
@@ -2028,49 +2056,49 @@ DISTRIBUTIONS
       Test::Warn 0
       XSLoader 0
       perl 5.008
-  Specio-0.49
-    pathname: D/DR/DROLSKY/Specio-0.49.tar.gz
+  Specio-0.50
+    pathname: D/DR/DROLSKY/Specio-0.50.tar.gz
     provides:
-      Specio 0.49
-      Specio::Coercion 0.49
-      Specio::Constraint::AnyCan 0.49
-      Specio::Constraint::AnyDoes 0.49
-      Specio::Constraint::AnyIsa 0.49
-      Specio::Constraint::Enum 0.49
-      Specio::Constraint::Intersection 0.49
-      Specio::Constraint::ObjectCan 0.49
-      Specio::Constraint::ObjectDoes 0.49
-      Specio::Constraint::ObjectIsa 0.49
-      Specio::Constraint::Parameterizable 0.49
-      Specio::Constraint::Parameterized 0.49
-      Specio::Constraint::Role::CanType 0.49
-      Specio::Constraint::Role::DoesType 0.49
-      Specio::Constraint::Role::Interface 0.49
-      Specio::Constraint::Role::IsaType 0.49
-      Specio::Constraint::Simple 0.49
-      Specio::Constraint::Structurable 0.49
-      Specio::Constraint::Structured 0.49
-      Specio::Constraint::Union 0.49
-      Specio::Declare 0.49
-      Specio::DeclaredAt 0.49
-      Specio::Exception 0.49
-      Specio::Exporter 0.49
-      Specio::Helpers 0.49
-      Specio::Library::Builtins 0.49
-      Specio::Library::Numeric 0.49
-      Specio::Library::Perl 0.49
-      Specio::Library::String 0.49
-      Specio::Library::Structured 0.49
-      Specio::Library::Structured::Dict 0.49
-      Specio::Library::Structured::Map 0.49
-      Specio::Library::Structured::Tuple 0.49
-      Specio::OO 0.49
-      Specio::PartialDump 0.49
-      Specio::Registry 0.49
-      Specio::Role::Inlinable 0.49
-      Specio::Subs 0.49
-      Specio::TypeChecks 0.49
-      Test::Specio 0.49
+      Specio 0.50
+      Specio::Coercion 0.50
+      Specio::Constraint::AnyCan 0.50
+      Specio::Constraint::AnyDoes 0.50
+      Specio::Constraint::AnyIsa 0.50
+      Specio::Constraint::Enum 0.50
+      Specio::Constraint::Intersection 0.50
+      Specio::Constraint::ObjectCan 0.50
+      Specio::Constraint::ObjectDoes 0.50
+      Specio::Constraint::ObjectIsa 0.50
+      Specio::Constraint::Parameterizable 0.50
+      Specio::Constraint::Parameterized 0.50
+      Specio::Constraint::Role::CanType 0.50
+      Specio::Constraint::Role::DoesType 0.50
+      Specio::Constraint::Role::Interface 0.50
+      Specio::Constraint::Role::IsaType 0.50
+      Specio::Constraint::Simple 0.50
+      Specio::Constraint::Structurable 0.50
+      Specio::Constraint::Structured 0.50
+      Specio::Constraint::Union 0.50
+      Specio::Declare 0.50
+      Specio::DeclaredAt 0.50
+      Specio::Exception 0.50
+      Specio::Exporter 0.50
+      Specio::Helpers 0.50
+      Specio::Library::Builtins 0.50
+      Specio::Library::Numeric 0.50
+      Specio::Library::Perl 0.50
+      Specio::Library::String 0.50
+      Specio::Library::Structured 0.50
+      Specio::Library::Structured::Dict 0.50
+      Specio::Library::Structured::Map 0.50
+      Specio::Library::Structured::Tuple 0.50
+      Specio::OO 0.50
+      Specio::PartialDump 0.50
+      Specio::Registry 0.50
+      Specio::Role::Inlinable 0.50
+      Specio::Subs 0.50
+      Specio::TypeChecks 0.50
+      Test::Specio 0.50
     requirements:
       B 0
       Carp 0

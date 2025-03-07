@@ -45,6 +45,7 @@ use constant DEV_PREREQS => sub {
   requires 'Inline';
   requires 'Inline::C';
   requires 'Module::Build::InlineModule';
+  requires 'Module::Build::XSUtil';
   requires 'Module::Signature';
   requires 'ExtUtils::InstallPaths'
 };
