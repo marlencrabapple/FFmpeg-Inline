@@ -1,4 +1,4 @@
-
+[![Actions Status](https://github.com/marlencrabapple/FFmpeg-Inline/actions/workflows/test.yml/badge.svg)](https://github.com/marlencrabapple/FFmpeg-Inline/actions)
 # NAME
 
 FFmpeg::Inline - Perl 5 bindings to FFmpeg/lib(av(codec|format|util|filter|device)|sw(resample|scale)) via Inline::C and Inline::Module.

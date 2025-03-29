@@ -115,9 +115,14 @@
    },
    "release_status" : "unstable",
    "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/marlencrabapple/FFmpeg-Inline/issues"
+      },
+      "homepage" : "https://github.com/marlencrabapple/FFmpeg-Inline",
       "repository" : {
          "type" : "git",
-         "url" : "git://codeberg.org/crabapp/ffmpeg-inline.git"
+         "url" : "https://github.com/marlencrabapple/FFmpeg-Inline.git",
+         "web" : "https://github.com/marlencrabapple/FFmpeg-Inline"
       }
    },
    "version" : "0.01",
