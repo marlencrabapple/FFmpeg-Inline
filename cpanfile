@@ -22,6 +22,7 @@ requires 'TOML::Tiny';
 requires 'Struct::Dumb';
 requires 'Future::AsyncAwait';
 requires 'Const::Fast';
+requires 'Const::Fast::Exporter';
 requires 'Module::Build::InlineModule';
 
 on 'test' => sub {

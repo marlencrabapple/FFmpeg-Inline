@@ -23,6 +23,7 @@ my %args = (
 
     requires => {
         'Const::Fast' => '0',
+        'Const::Fast::Exporter' => '0',
         'Data::Printer' => '0',
         'File::chdir' => '0',
         'Future::AsyncAwait' => '0',

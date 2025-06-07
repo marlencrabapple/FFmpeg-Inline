@@ -192,6 +192,16 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
+  Const-Fast-Exporter-0.02
+    pathname: N/NE/NEILB/Const-Fast-Exporter-0.02.tar.gz
+    provides:
+      Const::Fast::Exporter 0.02
+    requirements:
+      Const::Fast 0
+      ExtUtils::MakeMaker 0
+      perl 5.010
+      strict 0
+      warnings 0
   Cpanel-JSON-XS-4.39
     pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.39.tar.gz
     provides:
