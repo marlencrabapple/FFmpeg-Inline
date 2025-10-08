@@ -1,4 +1,4 @@
-
+[![Actions Status](https://github.com/marlencrabapple/FFmpeg-Inline/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/marlencrabapple/FFmpeg-Inline/actions?workflow=test)
 # NAME
 
 FFmpeg::Inline - Perl 5 bindings to FFmpeg/lib(av(codec|format|util|filter|device)|sw(resample|scale)) via Inline::C and Inline::Module.
@@ -27,7 +27,7 @@ FFmpeg::Inline - Perl 5 bindings to FFmpeg/lib(av(codec|format|util|filter|devic
                     }
                 , vcodec => { effort => 9, distance => 0 }
                 , globalcfg  => { threads => 0, report => 1 }
-                , genfn => sub ($inputfn, $ext) { 
+                , genfn => sub ($inputfn, $ext) {
                     join '', Time::HiRes::gettimeofday . ".$ext"
                   }
                 ,  ... );

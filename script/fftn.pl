@@ -6,6 +6,7 @@ use v5.40;
 use lib 'lib';
 
 use Carp;
+use Getopt::Long;
 use Data::Printer;
 use FFmpeg::Inline;
 use Syntax::Keyword::Try;

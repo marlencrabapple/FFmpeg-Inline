@@ -23,6 +23,7 @@ my %args = (
 
     requires => {
         'Const::Fast' => '0',
+        'Const::Fast::Exporter' => '0',
         'Data::Printer' => '0',
         'File::chdir' => '0',
         'Future::AsyncAwait' => '0',
@@ -63,6 +64,7 @@ my %args = (
         'Minilla' => '0',
         'Minilla::Profile::ModuleBuild' => '0',
         'Module::Build::InlineModule' => '0',
+        'Module::Build::XSUtil' => '0',
         'Module::Signature' => '0',
         'Perl::Critic' => '0',
         'Perl::Critic::Community' => '0',

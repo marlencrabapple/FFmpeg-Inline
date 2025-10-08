@@ -4,7 +4,7 @@
       "Ian P Bradley <ian.bradley@studiocrabapple.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v3.1.25, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "Minilla/v3.1.27, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
@@ -37,6 +37,7 @@
             "Minilla" : "0",
             "Minilla::Profile::ModuleBuild" : "0",
             "Module::Build::InlineModule" : "0",
+            "Module::Build::XSUtil" : "0",
             "Module::Signature" : "0",
             "Perl::Critic" : "0",
             "Perl::Critic::Community" : "0",
@@ -60,6 +61,7 @@
             "Minilla" : "0",
             "Minilla::Profile::ModuleBuild" : "0",
             "Module::Build::InlineModule" : "0",
+            "Module::Build::XSUtil" : "0",
             "Module::Signature" : "0",
             "Perl::Critic" : "0",
             "Perl::Critic::Community" : "0",
@@ -74,6 +76,7 @@
       "runtime" : {
          "requires" : {
             "Const::Fast" : "0",
+            "Const::Fast::Exporter" : "0",
             "Data::Printer" : "0",
             "File::chdir" : "0",
             "Future::AsyncAwait" : "0",
@@ -113,9 +116,14 @@
    },
    "release_status" : "unstable",
    "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/marlencrabapple/FFmpeg-Inline/issues"
+      },
+      "homepage" : "https://github.com/marlencrabapple/FFmpeg-Inline",
       "repository" : {
          "type" : "git",
-         "url" : "git://codeberg.org/crabapp/ffmpeg-inline.git"
+         "url" : "https://github.com/marlencrabapple/FFmpeg-Inline.git",
+         "web" : "https://github.com/marlencrabapple/FFmpeg-Inline"
       }
    },
    "version" : "0.01",

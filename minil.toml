@@ -3,6 +3,7 @@ badges = ["github-actions/test.yml"]
 #module_maker="ModuleBuildInlineModule"
 module_maker="ModuleBuild"
 static_install = "auto"
+make_stub = 1
 
 [XSUtil]
 cc_warnings = 1

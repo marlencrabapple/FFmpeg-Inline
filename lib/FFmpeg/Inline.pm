@@ -1,6 +1,7 @@
 use Object::Pad qw(:experimental(:all));
 
 package FFmpeg::Inline 0.01;
+
 class FFmpeg::Inline;
 
 use utf8;
@@ -10,66 +11,79 @@ use Carp;
 use Path::Tiny;
 use Time::HiRes;
 use Data::Printer;
+use Const::Fast;
+use Getopt::Long;
+use Const::Fast::Exporter;
 use Syntax::Keyword::Try;
 use Encode qw(encode decode);
 
 use FFmpeg::Inline::Stub;
 
-state %default = (
-  fmt => "avif",
-  out => sub { __PACKAGE__->tnfn },
-  vf => {
-    scale => {
-      width => 250,
-      height => 250
+const our  %codecmap => (
+    jxl  => 'AV_CODEC_ID_JPEGXL',
+    avif => 'AV_CODEC_ID_AV1',
+    png  => 'AV_CODEC_ID_PNG',
+    gif  => 'AV_CODEC_ID_GIF',
+    webp => 'AV_CODEC_ID_WEBP',
+    heif => 'AV_CODEC_ID_HEVC',
+    vp8  => 'AV_CODEC_ID_VP8',
+    vp9  => 'AV_CODEC_ID_VP9',
+    bmp  => 'AV_CODEC_ID_BMP',
+    apng => 'AV_CODEC_ID_APNG',
+    jpeg => 'AV_CODEC_ID_JPEG2000' 
+);
+
+const our %default => (
+    fmt => "avif",
+    out => sub { __PACKAGE__->tnfn },
+    vf  => {
+        scale => {
+            width  => 250,
+            height => 250
+        }
     }
-  }
 );
 
 field $fmt = $default{fmt};
 field $out = $default{out};
 field $vf  = $default{vf};
 
-use FFmpeg::Inline::Stub C => Config =>
-  => BUILD_NOISY => 1
-  => enable => "autowrap"
-  => LIBS => "-lavformat -lavcodec -lavdevice -lavfilter -lavutil -lswscale"
-           . " -lswresample -lz";
+use FFmpeg::Inline::Stub C => Config => BUILD_NOISY => 1 => enable =>
+  "autowrap"               => LIBS   =>
+  "-lavformat -lavcodec -lavdevice -lavfilter -lavutil -lswscale"
+  . " -lswresample -lz";
 
-method print_self { p $self }
-method print_class :common { p $class }
+method print_self           { p $self }
+method print_class : common { p $class }
 
-method tnfn :common { (join '', Time::HiRes::gettimeofday) . ".$default{fmt}" }
+method tnfn :
+  common { ( join '', Time::HiRes::gettimeofday ) . ".$default{fmt}" }
 
-method codec_id :common ($extension) {
-  state %codecmap = (
-    jxl => 'AV_CODEC_ID_JPEGXL',
-    avif => 'AV_CODEC_ID_AV1'
-  );
+method codec_id : common ($extension) {
 
-  $codecmap{$extension}
+
+    $codecmap{$extension};
 }
 
-method thumbnail :common ($in, %args) {
-  carp $in if $ENV{DEBUG};
-  carp np %args if $ENV{DEBUG};
-  
-  my @io = map { path($_)->absolute->canonpath }
-             ($in, ($args{out} // './' . $default{out}->()));
+method thumbnail : common ($in, %args) {
+    carp $in      if $ENV{DEBUG};
+    carp np %args if $ENV{DEBUG};
 
-  my @size = map { "$_" }
-             map { $args{$_} // $default{vf}->{scale}{$_} }
-               qw(width height);
+    my @io = map { path($_)->absolute->canonpath }
+      ( $in, ( $args{out} // './' . $default{out}->() ) );
 
-  try {
-    my $status = FFmpeg::Inline::thumb($0, @io, @size
-      , $class->codec_id($args{fmt} // $default{fmt}));
-  
-    return $status
-  }
-  catch ($e) {
-    warn np $e
-  }
+    my @size = map { "$_" }
+      map { $args{$_} // $default{vf}->{scale}{$_} } qw(width height);
+
+    try {
+        my $status = FFmpeg::Inline::thumb( $0, @io, @size,
+            $class->codec_id( $args{fmt} // $default{fmt} ) );
+
+        return $status
+    }
+    catch ($e) {
+        warn np $e
+    }
 }
 
 use FFmpeg::Inline::Stub C => <<'...';
@@ -262,7 +276,7 @@ static int open_output_file(const char *filename, unsigned int max_w, unsigned i
 
         in_stream = ifmt_ctx->streams[i];
         dec_ctx = stream_ctx[i].dec_ctx;
-        
+
         if (dec_ctx->codec_type != AVMEDIA_TYPE_VIDEO) {
             avcodec_free_context(&stream_ctx[i].dec_ctx);
             continue;
@@ -274,7 +288,7 @@ static int open_output_file(const char *filename, unsigned int max_w, unsigned i
             return AVERROR_UNKNOWN;
         }
 
- 
+
         if (dec_ctx->codec_type == AVMEDIA_TYPE_VIDEO) {
 	        encoder = avcodec_find_encoder(AV_CODEC_ID_AV1);
 
@@ -292,7 +306,7 @@ static int open_output_file(const char *filename, unsigned int max_w, unsigned i
                 const enum AVPixelFormat *pix_fmts = NULL;
 
                 if (dec_ctx->width <= max_w && dec_ctx->height <= max_h) {
-                        enc_ctx->width = dec_ctx->width;    
+                        enc_ctx->width = dec_ctx->width;
                         enc_ctx->height = dec_ctx->height;
                     }
                     else {
@@ -311,7 +325,7 @@ static int open_output_file(const char *filename, unsigned int max_w, unsigned i
 
                 /* video time_base can be set to whatever is handy and supported by encoder */
                 enc_ctx->time_base = av_inv_q(dec_ctx->framerate);
-             } 
+             }
 
             if (ofmt_ctx->oformat->flags & AVFMT_GLOBALHEADER)
                 enc_ctx->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
@@ -566,7 +580,7 @@ static int encode_write_frame(unsigned int stream_index, int flush)
     av_log(NULL, AV_LOG_INFO, "Encoding frame\n");
     /* encode filtered frame */
     av_packet_unref(enc_pkt);
- 
+
     ret = avcodec_send_frame(stream->enc_ctx, filt_frame);
 
     if (ret < 0)
@@ -614,7 +628,7 @@ static int filter_encode_write_frame(AVFrame *frame, unsigned int stream_index)
                 ret = 0;
             break;
         }
- 
+
         filter->filtered_frame->pict_type = AV_PICTURE_TYPE_NONE;
         ret = encode_write_frame(stream_index, 0);
         av_frame_unref(filter->filtered_frame);
@@ -667,13 +681,13 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
         if (filter_ctx[stream_index].filter_graph) {
             StreamContext *stream = &stream_ctx[stream_index];
             av_log(NULL, AV_LOG_DEBUG, "Going to reencode&filter the frame\n");
- 
+
             av_packet_rescale_ts(packet,
                                  ifmt_ctx->streams[stream_index]->time_base,
                                  stream->dec_ctx->time_base);
 
 	    ret = avcodec_send_packet(stream->dec_ctx, packet);
-            
+
 	    if (ret < 0) {
                 av_log(NULL, AV_LOG_ERROR, "Decoding failed\n");
                 break;
@@ -687,7 +701,7 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
                     goto end;
 
                 stream->dec_frame->pts = stream->dec_frame->best_effort_timestamp;
-	
+
                 //if (seek < 16) {
                 //	  seek++;
                 //	  continue;
@@ -699,7 +713,7 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
 
                 break;
             }
-        } 
+        }
         break;
         av_packet_unref(packet);
     }
@@ -779,7 +793,6 @@ int main (int argc, char** argv) {
 }
 ...
 
-
 __END__
 
 =encoding utf-8
@@ -812,7 +825,7 @@ FFmpeg::Inline - Perl 5 bindings to FFmpeg/lib(av(codec|format|util|filter|devic
                     }
                 , vcodec => { effort => 9, distance => 0 }
                 , globalcfg  => { threads => 0, report => 1 }
-                , genfn => sub ($inputfn, $ext) { 
+                , genfn => sub ($inputfn, $ext) {
                     join '', Time::HiRes::gettimeofday . ".$ext"
                   }
                 ,  ... );
@@ -842,4 +855,3 @@ it under the same terms as Perl itself.
 Ian P Bradley E<lt>ian.bradley@studiocrabapple.comE<gt>
 
 =cut
-
