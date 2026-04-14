@@ -41,7 +41,6 @@ use constant DEV_PREREQS => sub {
   requires 'Minilla::Profile::ModuleBuild';
   requires 'Perl::Critic';
   requires 'Perl::Tidy';
-  requires 'App::perlimports';
   requires 'Perl::Critic::Community';
   requires 'Inline';
   requires 'Inline::C';
