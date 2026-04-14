@@ -55,7 +55,6 @@ my %args = (
     },
 
     build_requires => {
-        'App::perlimports' => '0',
         'C::Scan' => '0',
         'ExtUtils::InstallPaths' => '0',
         'Inline' => '0',

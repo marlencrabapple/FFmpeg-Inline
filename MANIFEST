@@ -13,6 +13,8 @@
 .inline/config-x86_64-linux-thread-multi-5.040000
 .inline/config-x86_64-linux-thread-multi-5.040001
 .inline/config-x86_64-linux-thread-multi-5.040002
+.inline/config-x86_64-linux-thread-multi-5.040003
+.inline/config-x86_64-linux-thread-multi-5.042000
 .inline/lib/auto/FFmpeg/Inline/Stub/.packlist
 .inline/lib/auto/FFmpeg/Inline/Stub/Stub.inl
 .inline/lib/auto/FFmpeg/Inline/Stub/Stub.so
@@ -33,6 +35,7 @@ Build.PL
 Changes
 cpanfile
 cpanfile.snapshot
+ffmpeg-20251021-211933.log
 FFmpeg-Inline-0.01-x86_64-linux-thread-multi-5.40.0.par
 FFmpeg-Inline-0.01-x86_64-linux-thread-multi-5.40.1.par
 FFmpeg-Inline-0.01/Build.PL
@@ -72,6 +75,7 @@ META.yml
 minil.toml
 ppport.h
 README.md
+script/fftn.1.pl
 script/fftn.pl
 src/ffmpeg-thumb.c
 src/ffmpeg-thumb.h
