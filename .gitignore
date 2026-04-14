@@ -41,3 +41,9 @@ MYMETA.*
 .vscode/*
 .inline
 .perl-version
+/fatlib
+/authors
+/bin
+
+# TODO: Generate file ext glob from libavformat
+*.{jpg,gif,png,bmp,avif,heic,tiff,mp4,mkv,webm,avi}
