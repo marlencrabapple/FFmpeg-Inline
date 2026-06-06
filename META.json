@@ -1,7 +1,7 @@
 {
-   "abstract" : "Perl 5 bindings to FFmpeg/lib(av(codec|format|util|filter|device)|sw(resample|scale)) via Inline::C and Inline::Module.",
+   "abstract" : "Blah blah blah",
    "author" : [
-      "Ian P Bradley <ian.bradley@studiocrabapple.com>"
+      "Ian P Bradley <crabapp@hikki.tech>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Minilla/v3.1.29, CPAN::Meta::Converter version 2.150010",
@@ -125,6 +125,9 @@
       }
    },
    "version" : "0.01",
+   "x_contributors" : [
+      "Ian P Bradley <ian.bradley@studiocrabapple.com>"
+   ],
    "x_serialization_backend" : "JSON::PP version 4.16",
    "x_static_install" : 0
 }

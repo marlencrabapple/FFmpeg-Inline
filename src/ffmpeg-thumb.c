@@ -26,6 +26,14 @@ typedef struct StreamContext {
     AVFrame *dec_frame;
 } StreamContext;
 
+str2enum (const char *str)
+{
+     int j;
+     for (j = 0;  j < sizeof (conversion) / sizeof (conversion[0]);  ++j)
+         if (!strcmp (str, conversion[j].str))
+             return conversion[j].val;
+}
+
 static StreamContext *stream_ctx;
 char **
 XS_unpack_charPtrPtr( rv )
@@ -88,8 +96,8 @@ char **s;
                 av_push( av, sv );
         }
         sv = newSVrv( st, NULL );       /* upgrade stack SV to an RV */
-        SvREFCNT_dec( sv );            /* discard */
-        SvRV( st ) = (SV*)av;         /* make stack RV point at our AV */
+        SvREFCNT_dec( sv );     /* discard */
+        SvRV( st ) = (SV*)av;   /* make stack RV point at our AV */
 }
 
 void
@@ -166,7 +174,7 @@ static int open_input_file(const char *filename)
     return 0;
 }
 
-static int open_output_file(const char *filename, unsigned int max_w, unsigned int max_h)
+static int open_output_file(const char *filename, unsigned int max_w, unsigned int max_h, int codecid)
 {
     AVStream *out_stream;
     AVStream *in_stream;
@@ -187,7 +195,7 @@ static int open_output_file(const char *filename, unsigned int max_w, unsigned i
 
         in_stream = ifmt_ctx->streams[i];
         dec_ctx = stream_ctx[i].dec_ctx;
-        
+
         if (dec_ctx->codec_type != AVMEDIA_TYPE_VIDEO) {
             avcodec_free_context(&stream_ctx[i].dec_ctx);
             continue;
@@ -199,9 +207,9 @@ static int open_output_file(const char *filename, unsigned int max_w, unsigned i
             return AVERROR_UNKNOWN;
         }
 
- 
+
         if (dec_ctx->codec_type == AVMEDIA_TYPE_VIDEO) {
-	        encoder = avcodec_find_encoder(AV_CODEC_ID_AV1);
+	        encoder = avcodec_find_encoder(codecid);
 
             if (!encoder) {
                 av_log(NULL, AV_LOG_FATAL, "Necessary encoder not found\n");
@@ -217,7 +225,7 @@ static int open_output_file(const char *filename, unsigned int max_w, unsigned i
                 const enum AVPixelFormat *pix_fmts = NULL;
 
                 if (dec_ctx->width <= max_w && dec_ctx->height <= max_h) {
-                        enc_ctx->width = dec_ctx->width;    
+                        enc_ctx->width = dec_ctx->width;
                         enc_ctx->height = dec_ctx->height;
                     }
                     else {
@@ -236,7 +244,7 @@ static int open_output_file(const char *filename, unsigned int max_w, unsigned i
 
                 /* video time_base can be set to whatever is handy and supported by encoder */
                 enc_ctx->time_base = av_inv_q(dec_ctx->framerate);
-             } 
+             }
 
             if (ofmt_ctx->oformat->flags & AVFMT_GLOBALHEADER)
                 enc_ctx->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
@@ -491,7 +499,7 @@ static int encode_write_frame(unsigned int stream_index, int flush)
     av_log(NULL, AV_LOG_INFO, "Encoding frame\n");
     /* encode filtered frame */
     av_packet_unref(enc_pkt);
- 
+
     ret = avcodec_send_frame(stream->enc_ctx, filt_frame);
 
     if (ret < 0)
@@ -539,7 +547,7 @@ static int filter_encode_write_frame(AVFrame *frame, unsigned int stream_index)
                 ret = 0;
             break;
         }
- 
+
         filter->filtered_frame->pict_type = AV_PICTURE_TYPE_NONE;
         ret = encode_write_frame(stream_index, 0);
         av_frame_unref(filter->filtered_frame);
@@ -571,7 +579,7 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
 
     if ((ret = open_input_file(in)) < 0)
         goto end;
-    if ((ret = open_output_file(out, strtoul(width, &max_w_end, 10), strtoul(height, &max_h_end, 10))) < 0)
+    if ((ret = open_output_file(out, strtoul(width, &max_w_end, 10), strtoul(height, &max_h_end, 10), str2enum(codecid))) < 0)
         goto end;
     if ((ret = init_filters()) < 0)
         goto end;
@@ -592,13 +600,13 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
         if (filter_ctx[stream_index].filter_graph) {
             StreamContext *stream = &stream_ctx[stream_index];
             av_log(NULL, AV_LOG_DEBUG, "Going to reencode&filter the frame\n");
- 
+
             av_packet_rescale_ts(packet,
                                  ifmt_ctx->streams[stream_index]->time_base,
                                  stream->dec_ctx->time_base);
 
 	    ret = avcodec_send_packet(stream->dec_ctx, packet);
-            
+
 	    if (ret < 0) {
                 av_log(NULL, AV_LOG_ERROR, "Decoding failed\n");
                 break;
@@ -612,7 +620,7 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
                     goto end;
 
                 stream->dec_frame->pts = stream->dec_frame->best_effort_timestamp;
-	
+
                 //if (seek < 16) {
                 //	  seek++;
                 //	  continue;
@@ -624,7 +632,7 @@ int thumb(char* caller, char* in, char* out, char* width, char* height, char* co
 
                 break;
             }
-        } 
+        }
         break;
         av_packet_unref(packet);
     }

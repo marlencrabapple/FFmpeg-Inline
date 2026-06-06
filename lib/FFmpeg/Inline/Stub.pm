@@ -10,5 +10,5 @@
 
 use strict; use warnings;
 package FFmpeg::Inline::Stub;
-use Inline::Module stub => 'v2';
+use Inline::Module stub => '0.35';
 1;

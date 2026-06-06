@@ -3,24 +3,47 @@
 use utf8;
 use v5.40;
 
-use lib 'lib';
+use Getopt::Long
+  qw(GetOptionsFromArray :config no_ignore_case auto_abbrev passthrough long_prefix_pattern=--?);
 
-use Carp;
-use Getopt::Long;
-use Data::Printer;
+use IO::Handle::Common;
 use FFmpeg::Inline;
-use Syntax::Keyword::Try;
+use Path::Tiny;
 
-FFmpeg::Inline->print_class if $ENV{DEBUG};
-my $fftn = FFmpeg::Inline->new;
-$fftn->print_self if $ENV{DEBUG};
-FFmpeg::Inline->print_class if $ENV{DEBUG};
+sub cli {
+    my %clidest = ( max_width => 400, max_height => -1 );
+    my @barearg;
 
-try {
-  my $ret = FFmpeg::Inline->thumbnail(shift @ARGV
-    , map { ($_ => (shift @ARGV || undef)) } qw(out width height fmt));
-  p $ret
+    GetOptions(
+        \%clidest,
+        'output=s',
+        'dimensions|maxsize|resize=s{2}',
+        'max_width=s',
+        'max_height=s',
+        'quality=i',
+        'offset|ss=s',
+        'audio!', 'vf=s',
+        '<>' => sub ($barearg) {
+            push @barearg, $barearg;
+
+        }
+    );
+
+    @clidest{qw(max_width maxheight)} //= $clidest{dimensions}->@*
+      if ref $clidest{dimensions} isa ARRAY;
+
+    foreach my $in ( map { path $_ } @barearg ) {
+        FFmpeg::Inline->thumbnail(
+            $in,
+            (
+                $clidest{output}
+                ? "$clidest{output}-" . time . ".jxl"
+                : $in->basename(qr/\.[^\.]+$/) . ".jxl"
+            ),
+            delete @clidest{qw(max_width max_height)},
+            %clidest
+        );
+    }
 }
-catch ($e) {
-  croak np $e
-}
+
+cli()
